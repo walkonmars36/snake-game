@@ -1,6 +1,9 @@
 .grid {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   width: 200px;
   height: 200px;
   border: 2px solid black;
@@ -10,9 +13,9 @@
 .square {
   width: 20px;
   height: 20px;
-  //background: blue;
 }
 
 .snake {
   background: green;
 }
+/*# sourceMappingURL=styles.css.map */
