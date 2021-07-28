@@ -5,7 +5,7 @@ let squaresArr = [];
 let currentSnake = [2, 1, 0]; // position in the squaresArr
 let direction = 1;
 const width = 10;
-let apple = 0;
+let appleIndex = 0;
 
 function createGrid() {
   //create 100 of these elements with a for loop
@@ -36,12 +36,24 @@ function moveSnake() {
     return clearInterval(timerID);
 
   //remove last element from our currentSnake array
-  const removeTail = currentSnake.pop();
+  const tail = currentSnake.pop();
 
   //remove .snake styling from last element
-  squaresArr[removeTail].classList.remove("snake");
+  squaresArr[tail].classList.remove("snake");
   //add new square in direction of movement
   currentSnake.unshift(currentSnake[0] + direction);
+
+  //what happens when the snake head gets the apple?
+  if (squaresArr[currentSnake[0]].classList.contains("apple")) {
+    //remove the .apple class
+    squaresArr[currentSnake[0]].classList.remove("apple");
+    //grow snake by adding .snake class
+    squaresArr[currentSnake[tail]].classList.add("snake");
+    //grow snake array
+    //generate a new apple
+    //add one to the score
+    //speed up the snake
+  }
 
   //add .snake styling to new square
   squaresArr[currentSnake[0]].classList.add("snake");
@@ -54,10 +66,12 @@ let timerID = setInterval(moveSnake, 1000);
 
 function generateApples() {
   do {
-    //something
+    //generate random number
+    appleIndex = Math.floor(Math.random() * squaresArr.length);
   } while (squaresArr[appleIndex].classList.contains("snake"));
   squaresArr[appleIndex].classList.add("apple");
 }
+generateApples();
 
 function controlSnake(e) {
   switch (e.key) {
