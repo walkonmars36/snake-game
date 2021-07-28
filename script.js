@@ -4,10 +4,12 @@ const score = document.getElementById("score");
 let squaresArr = [];
 let currentSnake = [2, 1, 0]; // position in the squaresArr
 let direction = 1;
+const width = 10;
+let apple = 0;
 
 function createGrid() {
   //create 100 of these elements with a for loop
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < width * width; i++) {
     //create element
     const square = document.createElement("div");
 
@@ -24,6 +26,15 @@ createGrid();
 currentSnake.forEach((element) => squaresArr[element].classList.add("snake"));
 
 function moveSnake() {
+  if (
+    (currentSnake[0] + width >= width * width && direction === width) || //if snake has hit bottom
+    (currentSnake[0] % width === width - 1 && direction === 1) || //if snake has hit right wall
+    (currentSnake[0] % width === 0 && direction === -1) || //if snake has hit left wall
+    (currentSnake[0] - width <= 0 && direction === -width) || //if snake has hit top
+    squaresArr[currentSnake[0] + direction].classList.contains("snake")
+  )
+    return clearInterval(timerID);
+
   //remove last element from our currentSnake array
   const removeTail = currentSnake.pop();
 
@@ -38,13 +49,39 @@ function moveSnake() {
 
 moveSnake();
 
-//set interval method calls a function and repeats this in whatever time interval is set (in ms)
+//set interval method calls the function moveSnake and repeats this in whatever time interval is set (in ms)
 let timerID = setInterval(moveSnake, 1000);
 
-// KeyboardEvent: key='ArrowDown' | code='ArrowDown'
+function generateApples() {
+  do {
+    //something
+  } while (squaresArr[appleIndex].classList.contains("snake"));
+  squaresArr[appleIndex].classList.add("apple");
+}
 
-// KeyboardEvent: key='ArrowLeft' | code='ArrowLeft'
+function controlSnake(e) {
+  switch (e.key) {
+    case "w":
+    case "ArrowUp":
+      //move up for up arrow or w key press
+      direction = -width;
+      break;
+    case "a":
+    case "ArrowLeft":
+      //move left for left arrow or a key press
+      direction = -1;
+      break;
+    case "s":
+    case "ArrowDown":
+      //move down for down arrow or s key press
+      direction = +width;
+      break;
+    case "d":
+    case "ArrowRight":
+      //move right for right arrow or d key press
+      direction = 1;
+      break;
+  }
+}
 
-// KeyboardEvent: key='ArrowUp' | code='ArrowUp'
-
-// KeyboardEvent: key='ArrowRight' | code='ArrowRight'
+document.addEventListener("keydown", controlSnake);
